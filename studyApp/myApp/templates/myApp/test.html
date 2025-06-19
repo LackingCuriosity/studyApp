@@ -1,24 +1,30 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src={% static "myApp/upvote.js" %}></script>
+    <script src={% static "myApp/asyncQuestion.js" %}></script>
+    <link rel="stylesheet" href={% static "myApp/home.css" %}>
 </head>
 <body>
-    {% for post in posts %}
-    <div>
-        {{post.question}}
+    <div id="questionContainer">
+        <div id="questionDiv"></div>
+        <div id="answerDiv"></div>
+    <div id="questionControls">
+        <button name="upvote" class="vote" data-value=1 data-ID={{post.id}}>Upvote </button>
+        <button name="downvote" class="vote" data-value=-1 data-ID={{post.id}}> Downvote</button>
+        <button id="lastQuestionButton">Back</button>
+        <button id="newQuestionButton" value=0>Next</button>
+        <button id="flipButton" data-value="question"> Flip Card</button>
     </div>
-    {% endfor %}
+    
     <form id="addQuestion" method="POST" action = {%url "home" %}>
         {% csrf_token %}
-        <textarea name="question">
-
-        </textarea>
-        <textarea name="answer">
-
-        </textarea>
+        <textarea name="question"></textarea>
+        <textarea name="answer"></textarea>
         <button name="questionSubmit">
             Submit
         </button>
