@@ -2,7 +2,17 @@ document.addEventListener("DOMContentLoaded", () => {
     // vote buttons
     voteElements = document.getElementsByClassName("vote")
     for (let element of voteElements) {
+        // on click, disable and send data
         element.addEventListener("click", () => {
+
+            //disable/hide upvote and downvote
+            votes = document.getElementsByClassName("vote")
+            for (vote of votes) {
+                vote.disabled = true;
+                vote.style.display = "none"
+            }
+
+            // send data
             question = document.getElementById("questionDiv")
             data = JSON.stringify({'ID' : question.dataset.id, 'upvoteValue' : element.dataset.value})
             fetch("/", {

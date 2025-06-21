@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href={% static "myApp/layout.css" %}>
+</head>
+<body>
+    <div  id="navBar"> 
+        <button class="navItem"> Home </button>
+        <button class="navItem"> Manage Questions</button>
+        <button class="navItem"> Register </button>
+        <a href={% url "logout" %}><button class="navItem"> logout</button></a>
+    </div>
+
+
+
+</body>
+</html>

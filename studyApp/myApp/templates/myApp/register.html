@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href={% static "myApp/register.css" %}>
+    <link rel="stylesheet" href={% static "myApp/layout.css" %}>
+    <script src={% static "myApp/register.js" %}></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="messageDiv">{{message}}</div>
+    <form action={% url 'register' %} method="POST">
+        {% csrf_token %}
+        <div id="registerDiv">
+            <div class="largeText" id="registerText">
+                Register
+            </div>
+            <input type="text" name="username" class="registerInputField" placeholder="Username">
+            <input type="password" name="password" class="registerInputField" placeholder="Password">
+            <input type="password" name="confirmPassword" class="registerInputField" placeholder="Confirm Password">
+            <button id="registerButton"> Register </button>
+        </div>
+
+    </form>
+</body>
+</html>

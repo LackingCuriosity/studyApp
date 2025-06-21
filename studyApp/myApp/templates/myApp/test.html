@@ -19,6 +19,9 @@
         <button id="lastQuestionButton">Back</button>
         <button id="newQuestionButton" value=0>Next</button>
         <button id="flipButton" data-value="question"> Flip Card</button>
+        {% if user.is_authenticated %}
+            {{upvotes}} d
+        {% endif %}
     </div>
     
     <form id="addQuestion" method="POST" action = {%url "home" %}>
