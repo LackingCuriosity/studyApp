@@ -1,16 +1,33 @@
 {% extends "myApp/layout.html" %}
-
+{% load static %}
+{% block files %}
+    <link rel="stylesheet" href='{% static "myApp/manageQuestions.css" %}'>
+    <script src='{% static "myApp/manageQuestions.js" %}'></script>
+{% endblock %}
 {% block body %}
-<br>
-<br>
-<br>
-<form id="addQuestion" method="POST" action = '{%url "home" %}'>
+<br><br><br>
+<div id="mainContainer">
+    <div id="questionsContainer">
+        {% for question in questions %}
+        <div class="questionContainer">
+            <div class="question"><b>Question:</b><br>{{question.question}}</div>
+            <div class="answer"><b>Answer:</b><br>{{question.answer}}</div>
+            <div class="tooltip">
+                <div class="voteAmount">Votes: {{question.upvotes}}</div>
+                <form>
+                <input type="text" value={{question.id}} class="questionID">
+                <button class="delete">Delete</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <form method="POST" action = '{%url "manageQuestions" %}' id="addQuestionContainer"> 
+        <div> <b><u>Add Question:</u></b></div>
         {% csrf_token %}
-        <textarea name="question"></textarea>
-        <textarea name="answer"></textarea>
-        <button name="questionSubmit">
-            Submit
-        </button>
+        <textarea name="question" id="addQuestion" placeholder="Question"></textarea>
+        <textarea name="answer" id="addAnswer" placeholder="Answer"></textarea>
+        <button name="questionSubmit" id="submitButton">Submit</button>
     </form>
-</body>
+</div>
 {% endblock %}

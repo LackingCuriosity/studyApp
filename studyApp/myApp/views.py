@@ -11,13 +11,8 @@ import time
 # Create your views here.
 
 def home(request):
-    #if post create/add question
-    if request.method == "POST":
-        question = Question.objects.create(question=request.POST["question"], answer=request.POST["answer"], upvotes=0)
-        question.save()
-    
     #if PUT, upvote if authenticated
-    elif request.method == "PUT" and request.user.is_authenticated:
+    if request.method == "PUT" and request.user.is_authenticated:
         person = Person.objects.get(username=request.user.username)
 
         # user must have upvotes still
@@ -131,4 +126,22 @@ def updateUpvotes(request):
     return JsonResponse({"response": -1})
         
 def manageQuestions(request):
-    return render(request, "myApp/manageQuestions.html")
+    #if not logged in, send to login page
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("login"))
+    
+    person = Person.objects.get(username=request.user.username)
+    #if post create/add question
+    if request.method == "POST" and request.POST["question"] != "" and request.POST["answer"] != "":
+        question = Question.objects.create(question=request.POST["question"], answer=request.POST["answer"], upvotes=0)
+        question.save()
+        person.questions.add(question)
+        person.save()
+
+    elif request.method == "PUT":
+        data = json.loads(request.body)
+        
+    
+    return render(request, "myApp/manageQuestions.html",{
+        "questions": person.questions.all().order_by("-upvotes")
+    })

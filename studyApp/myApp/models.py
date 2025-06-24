@@ -10,3 +10,4 @@ class Question(models.Model):
 class Person(User):
     upvotes = models.BigIntegerField()
     upvotesTime = models.BigIntegerField()
+    questions = models.ManyToManyField(Question)
