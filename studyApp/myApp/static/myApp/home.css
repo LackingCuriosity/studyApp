@@ -13,8 +13,81 @@
     width: 100%;
     height: 40vh;
     border: 1px black solid;
+    border-bottom: none;
 }
 
 #answerDiv {
     display:none;
+}
+
+#questionControls { 
+    margin-left: auto;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+    border-bottom: 1px dashed grey;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: none;
+    padding-left: none;
+    
+}
+
+#upvotesDiv {
+    width: 100%;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    align-self: center;
+    line-height: 20pt;
+    border: 1px solid black;
+    border-top: none;
+
+    
+}
+
+.vote {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    width: 3%;
+    margin: 5px 10px 5px 10px;
+}
+
+#downvote {
+    align-items: right;
+    justify-content: right;
+    align-self: right;
+    text-align: right;
+}
+
+.questionButton, #flipButton {
+    margin-left: 20px;
+    margin-right: 20px;
+    padding: 5px 15px;
+}
+
+#flipButton {
+    margin: auto;
+    align-self: center;
+    align-items: center;
+}
+
+@keyframes pushOut{
+    from {
+        scale: 100%;
+    }
+    to {
+        scale: 110%;
+    }
+
+}
+
+.pushOutAnimation {
+    animation: 1s pushOut;
 }

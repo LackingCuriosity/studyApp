@@ -25,3 +25,15 @@ body {
     font-size: 2rem;
     font-family: Arial, Helvetica, sans-serif
 }
+
+@keyframes pushIn {
+    from {
+        scale: 100%
+    }
+    to {
+        scale: 95%
+    }
+}
+.buttonPressedAnimation:focus {
+    animation: 1s infinite alternate pushIn;
+}

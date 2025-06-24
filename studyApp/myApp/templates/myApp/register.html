@@ -1,14 +1,13 @@
+{% extends "myApp/layout.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+{% block files %}
     <link rel="stylesheet" href={% static "myApp/register.css" %}>
     <link rel="stylesheet" href={% static "myApp/layout.css" %}>
     <script src={% static "myApp/register.js" %}></script>
-    <title>Document</title>
-</head>
+{% endblock %}
+
+{% block body %}
 <body>
     <div id="messageDiv">{{message}}</div>
     <form action={% url 'register' %} method="POST">
@@ -25,4 +24,5 @@
 
     </form>
 </body>
+{% endblock %}
 </html>

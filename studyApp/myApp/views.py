@@ -116,5 +116,19 @@ def loginPage(request):
     
 def logoutPage(request):
     logout(request)
-    return HttpResponseRedirect(reverse("home"))
-    
+    return HttpResponseRedirect(reverse("login"))
+
+def updateUpvotes(request):
+    if request.user.is_authenticated:
+        person = Person.objects.get(username=request.user.username)
+        #if more that 10 miniutes has passed, set upvotes to 10, and reset time
+        print(time.time() - person.upvotesTime)
+        if (time.time() - person.upvotesTime > 600):
+            person.upvotes = 10
+            person.upvotesTime = time.time()
+            person.save()
+            return JsonResponse({"response": 200})
+    return JsonResponse({"response": -1})
+        
+def manageQuestions(request):
+    return render(request, "myApp/manageQuestions.html")

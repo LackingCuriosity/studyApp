@@ -1,3 +1,4 @@
+{% extends "myApp/layout.html" %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -5,32 +6,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src={% static "myApp/upvote.js" %}></script>
-    <script src={% static "myApp/asyncQuestion.js" %}></script>
-    <link rel="stylesheet" href={% static "myApp/home.css" %}>
+    {% block files %}
+    <script src='{% static "myApp/upvote.js" %}'></script>
+    <script src='{% static "myApp/asyncQuestion.js" %}'></script>
+    <link rel="stylesheet" href='{% static "myApp/home.css" %}'>
+    <link rel="stylesheet" href='{% static "myApp/layout.css" %}'>
+    {% endblock %}
 </head>
+
+{% block body %}
 <body>
     <div id="questionContainer">
         <div id="questionDiv"></div>
         <div id="answerDiv"></div>
     <div id="questionControls">
-        <button name="upvote" class="vote" data-value=1 data-ID={{post.id}}>Upvote </button>
-        <button name="downvote" class="vote" data-value=-1 data-ID={{post.id}}> Downvote</button>
-        <button id="lastQuestionButton">Back</button>
-        <button id="newQuestionButton" value=0>Next</button>
-        <button id="flipButton" data-value="question"> Flip Card</button>
-        {% if user.is_authenticated %}
-            {{upvotes}} d
-        {% endif %}
+        <button id="lastQuestionButton" class="buttonPressedAnimation questionButton">Back</button>
+        <button id="flipButton" data-value="question" class="buttonPressedAnimation"> Flip Card</button>
+        <button id="newQuestionButton" value=0 class="buttonPressedAnimation questionButton">Next</button>
     </div>
-    
-    <form id="addQuestion" method="POST" action = {%url "home" %}>
-        {% csrf_token %}
-        <textarea name="question"></textarea>
-        <textarea name="answer"></textarea>
-        <button name="questionSubmit">
-            Submit
-        </button>
-    </form>
-</body>
-</html>
+    {% if user.is_authenticated %}
+        <div id="upvotesDiv">
+            <img src='{% static "myApp/img/downvote.png" %}' name="downvote" class="vote buttonPressedAnimation" data-value=-1 data-ID={{post.id}}  id=downvote alt="downvote">
+            <div id="upvotesAmount">{{upvotes}}</div>
+            <img src='{% static "myApp/img/upvote.png" %}' name="upvote" class="vote buttonPressedAnimation" data-value=1 data-ID={{post.id}}  id=upvote alt="upvote">
+        </div>
+    {% endif %}
+
+{% endblock %}

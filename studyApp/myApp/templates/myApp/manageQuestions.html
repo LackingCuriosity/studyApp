@@ -1,0 +1,16 @@
+{% extends "myApp/layout.html" %}
+
+{% block body %}
+<br>
+<br>
+<br>
+<form id="addQuestion" method="POST" action = '{%url "home" %}'>
+        {% csrf_token %}
+        <textarea name="question"></textarea>
+        <textarea name="answer"></textarea>
+        <button name="questionSubmit">
+            Submit
+        </button>
+    </form>
+</body>
+{% endblock %}

@@ -33,14 +33,44 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById("lastQuestionButton").addEventListener("click", back)
 
-
         document.addEventListener("keyup", e => {
         if (e.key == "d") {
-            getQuestion();
+            newQuestionButton.click()
+            newQuestionButton.focus()
         }
         else if (e.key == "a") {
-            back();
+            document.getElementById("lastQuestionButton").click()
+            document.getElementById("lastQuestionButton").focus()
 
         }
     })
+
+        // flip buttons
+    flipButton = document.getElementById("flipButton")
+    function flip() {
+        flipButton = document.getElementById("flipButton")
+        questionDiv = document.getElementById("questionDiv")
+        answerDiv = document.getElementById("answerDiv")
+        if (flipButton.dataset.value == "question") {
+            questionDiv.style.display = "none"
+            answerDiv.style.display = "block"
+            flipButton.dataset.value = "answer"
+        }
+        else {
+            questionDiv.style.display = "block"
+            answerDiv.style.display = "none"
+            flipButton.dataset.value = "question"
+        }
+    }
+
+    flipButton.addEventListener("click", flip)
+    document.addEventListener("keyup", e => {
+        console.log("'" + e.key + "'")
+        if (e.key === " ") {
+            flipButton.click()
+            flipButton.focus()
+        }
+    })
+
 })
+

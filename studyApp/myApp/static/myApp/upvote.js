@@ -1,20 +1,22 @@
 document.addEventListener("DOMContentLoaded", () => {
     // vote buttons
     voteElements = document.getElementsByClassName("vote")
-    for (let element of voteElements) {
-        // on click, disable and send data
-        element.addEventListener("click", () => {
 
-            //disable/hide upvote and downvote
-            votes = document.getElementsByClassName("vote")
-            for (vote of votes) {
-                vote.disabled = true;
-                vote.style.display = "none"
+    function sendVote(amount) {
+        
+            
+            //update info for user
+            try {
+                upvotesAmount = document.getElementById("upvotesAmount")
+                upvotesAmount.innerHTML = Math.max(upvotesAmount.innerHTML - 1, 0)
             }
+            catch(e) {
+                console.log(e)
+            }   
 
             // send data
             question = document.getElementById("questionDiv")
-            data = JSON.stringify({'ID' : question.dataset.id, 'upvoteValue' : element.dataset.value})
+            data = JSON.stringify({'ID' : question.dataset.id, 'upvoteValue' : amount})
             fetch("/", {
                 method: "PUT",
                 headers : {
@@ -22,31 +24,41 @@ document.addEventListener("DOMContentLoaded", () => {
                 },
                 body: data
             })
-        })
-    }
-    // flip buttons
-    flipButton = document.getElementById("flipButton")
-    function flip() {
-        questionDiv = document.getElementById("questionDiv")
-        answerDiv = document.getElementById("answerDiv")
-        if (flipButton.dataset.value == "question") {
-            questionDiv.style.display = "none"
-            answerDiv.style.display = "block"
-            flipButton.dataset.value = "answer"
-        }
-        else {
-            questionDiv.style.display = "block"
-            answerDiv.style.display = "none"
-            flipButton.dataset.value = "question"
-        }
     }
 
-    flipButton.addEventListener("click", flip)
-    document.addEventListener("keyup", e => {
-        console.log("'" + e.key + "'")
-        if (e.key === " ") {
-            flip()
+    // apply function to all elements
+    for (let element of voteElements) {
+        // on click, disable and send data
+        element.addEventListener("click", () => {
+            sendVote(element.dataset.value)
+            element.classList.add("pushOutAnimation")
+            setTimeout(() => {
+                element.classList.remove("pushOutAnimation")
+            }, 1000)
+        })
+    }
+
+    // Assign function to W and S key
+    document.addEventListener("keyup", (e) => {
+        if (e.key === "w") {
+            sendVote(1)
+        }
+        else if (e.key === "s") {
+            sendVote(-1)
         }
     })
+
+    setInterval(() => {
+        fetch("/updateUpvotes", {
+            method: "GET"
+        })
+        .then (data => data.json())
+        .then (data => {
+            console.log(data)
+            if (data["response"] == 200) {
+                document.getElementById("upvotesAmount").innerHTML = 10;
+            }
+        })
+    }, 2000);
 
 })
