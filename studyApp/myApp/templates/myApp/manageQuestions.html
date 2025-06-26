@@ -14,10 +14,9 @@
             <div class="answer"><b>Answer:</b><br>{{question.answer}}</div>
             <div class="tooltip">
                 <div class="voteAmount">Votes: {{question.upvotes}}</div>
-                <form>
-                <input type="text" value={{question.id}} class="questionID">
-                <button class="delete">Delete</button>
-                </form>
+                <div>
+                <button class="delete" id={{question.id}}>Delete</button>
+                </div>
             </div>
         </div>
         {% endfor %}
@@ -29,5 +28,14 @@
         <textarea name="answer" id="addAnswer" placeholder="Answer"></textarea>
         <button name="questionSubmit" id="submitButton">Submit</button>
     </form>
+</div>
+
+<div id="confirmationDiv">
+    <div id="confirmationText">Are you sure you want to delete this post?</div>
+    <div id="confirmationChoices">
+        <button class="confirmationButton" id="yesButton">Yes</button>
+        <button class="confirmationButton" id='noButton'>No</button>
+    </div>
+
 </div>
 {% endblock %}

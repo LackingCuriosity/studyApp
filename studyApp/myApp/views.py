@@ -137,9 +137,17 @@ def manageQuestions(request):
         question.save()
         person.questions.add(question)
         person.save()
-
+    
+    #delete post if PUT method
     elif request.method == "PUT":
+        # get question ID
         data = json.loads(request.body)
+
+        #ensure user owns question and delete
+        if person.questions.filter(id=data["ID"]):
+            print(person.questions.get(id=data["ID"]))
+            person.questions.get(id=data["ID"]).delete()
+
         
     
     return render(request, "myApp/manageQuestions.html",{

@@ -25,6 +25,7 @@
         <button id="newQuestionButton" value=0 class="buttonPressedAnimation questionButton">Next</button>
     </div>
     {% if user.is_authenticated %}
+    {% csrf_token %}
         <div id="upvotesDiv">
             <img src='{% static "myApp/img/downvote.png" %}' name="downvote" class="vote buttonPressedAnimation" data-value=-1 data-ID={{post.id}}  id=downvote alt="downvote">
             <div id="upvotesAmount">{{upvotes}}</div>
