@@ -17,18 +17,18 @@ def home(request):
 
         # user must have upvotes still
         if person.upvotes > 0:
-
             #get upvote/downvote and apply
             data = json.loads(request.body)
             id = data["ID"]
             question = Question.objects.get(id=id)
             person = Person.objects.get(username=request.user.username)
-            person.upvotes = person.upvotes - 1
-            person.save()
+            if not person.questions.filter(id=id):
+                person.upvotes = person.upvotes - 1
+                person.save()
 
-            #divide by abs of value to validate the value to ensure it's always +- 1
-            question.upvotes = question.upvotes + int(data["upvoteValue"])/abs(int(data["upvoteValue"]))
-            question.save()
+                #divide by abs of value to validate the value to ensure it's always +- 1
+                question.upvotes = question.upvotes + int(data["upvoteValue"])/abs(int(data["upvoteValue"]))
+                question.save()
             
     # show user amount of upvotes if authenticated
     if request.user.is_authenticated:
@@ -49,12 +49,34 @@ def getQuestion(request):
     if request.method != "GET":
         return HttpResponseBadRequest("Bad Request")
     
+    #model to send 
+    model = {}
+    
     # get question if the question exists
     if (request.GET.get('question')):
+        
         questionID = int(request.GET.get('question'))
         questionID = questionID % len(Question.objects.all()) 
-        return JsonResponse(model_to_dict(Question.objects.all().order_by('-upvotes')[questionID]))
+        year = int(request.GET.get("year", -1))
+        country = request.GET.get("country", "")
+        subject = request.GET.get("subject", "")
+        questions = (Question.objects.all().order_by('-upvotes'))
+        if year != -1:
+            questions = questions.filter(year=year)
+        if country != "Country":
+            questions = questions.filter(country=country)
+        if subject != "":
+            questions = questions.filter(subject=subject)
+        if len(questions) == 0:
+            return JsonResponse({"question" : "No Questions Yet!", "answer":"No Questions Yet!", "upvotes": ""})
+        questionID = questionID % len(questions)
+        model = model_to_dict(questions[questionID])
+        if request.user.is_authenticated:
+            model["isOwn"] = Person.objects.get(username=request.user.username).questions.filter(id=questions[questionID].id).exists()
+            
+        return JsonResponse(model)
     
+    model = model_to_dict(Question.objects.all().order_by('-upvotes')[0])
     #return question in JSON
     return JsonResponse(model_to_dict(Question.objects.all().order_by('-upvotes')[0]))
 
@@ -67,9 +89,9 @@ def register(request):
         return render(request, "myApp/register.html")
     
     #get user input
-    username = request.POST["username"]
-    password = request.POST["password"]
-    confirmPassword = request.POST["confirmPassword"]
+    username = request.POST.get("username", "")
+    password = request.POST.get("password", "")
+    confirmPassword = request.POST.get("confirmPassword", "")
 
     # error message if passwords dont match
     if (password != confirmPassword):
@@ -96,8 +118,8 @@ def loginPage(request):
         return render(request, "myApp/login.html")
     
     #get user input
-    username = request.POST["username"]
-    password = request.POST["password"]
+    username = request.POST.get("username", "")
+    password = request.POST.get("password", "")
     person = authenticate(request, username=username, password=password)
 
     #if authenticated, login else show error
@@ -132,11 +154,22 @@ def manageQuestions(request):
     
     person = Person.objects.get(username=request.user.username)
     #if post create/add question
-    if request.method == "POST" and request.POST["question"] != "" and request.POST["answer"] != "":
-        question = Question.objects.create(question=request.POST["question"], answer=request.POST["answer"], upvotes=0)
-        question.save()
-        person.questions.add(question)
-        person.save()
+    if request.method == "POST":
+        #ensure its valid
+        validSubjects = ["Accounting", "Biology", "Chemistry", "Computer Science", "Design And Technology", "Economics", "English", "Food Science", "French", "Math", "Geography", "Music", "Physics", "Philosophy", "Psycology", "Statistics"]
+        validCountries = ["Canada", "United States of America", "United Kingdom"]
+        validYears = [9,10,11,12,13]
+        userQuestion = request.POST.get("question", "")
+        userAnswer = request.POST.get("answer", "")
+        userCountry = request.POST.get("country", "")
+        userSubject = request.POST.get("subject", "")
+        userYear = request.POST.get("year", "-1")
+        if userQuestion != "" and userAnswer != "" and userSubject in validSubjects and userCountry in validCountries and int(userYear) in validYears:
+            question = Question.objects.create(question=request.POST["question"], answer=request.POST["answer"], upvotes=0, country=userCountry, subject=userSubject, year=userYear)
+            question.save()
+            person.questions.add(question)
+            person.save()
+            return (HttpResponseRedirect(reverse("manageQuestions")))
     
     #delete post if PUT method
     elif request.method == "PUT":

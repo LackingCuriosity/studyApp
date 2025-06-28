@@ -1,16 +1,37 @@
 document.addEventListener("DOMContentLoaded", () => {
-    question = document.getElementById("addQuestion")
-    answer = document.getElementById("addAnswer")
-    button = document.getElementById("submitButton")
-    button.disabled = true
-    document.addEventListener("keyup", e => {
-        if (question.value.trim() != "" && answer.value.trim() != "") {
-            button.disabled = false
+    country = document.getElementById("country")
+    year = document.getElementById("year")
+    validSubjects = ["Accounting", "Biology", "Chemistry", "Computer Science", "Design And Technology", "Economics", "English", "Food Science", "French", "Math", "Geography", "Music", "Physics", "Philosophy", "Psycology", "Statistics"]
+    function isValid() {
+        question = document.getElementById("addQuestion")
+        answer = document.getElementById("addAnswer")
+        subject = document.getElementById("subject")
+        if (validSubjects.includes(subject.value) && question.value.trim() != "" && answer.value.trim() != "" && country.dataset.value != -1 && year.dataset.value != -1) {
+            return true
         }
         else {
-            button.disabled = true
+            return false;
         }
+
+    }
+    button = document.getElementById("submitButton")
+    button.disabled = true
+    // on key up (for subject and Q and A)
+    document.addEventListener("keyup", e => {
+        button.disabled = !isValid()
     })
+    country.addEventListener("change", e => {
+        button.disabled = !isValid()
+    })
+    year.addEventListener("change", e => {
+        button.disabled = !isValid()
+    })
+
+    // add subjects to datalist
+    datalist = document.getElementById("subjectList")
+    for (subject of validSubjects) {
+        datalist.innerHTML += "<option data-value=" + subject + ">" + subject + "</option>"
+    }
 
     confirmationDiv = document.getElementById("confirmationDiv")
     deleteButtons = document.getElementsByClassName("delete")
@@ -25,7 +46,6 @@ document.addEventListener("DOMContentLoaded", () => {
     noButton = document.getElementById("noButton")
     noButton.addEventListener("click", e => {
         confirmationDiv.style.display = "none"
-        console.log("DS")
     })
 
     // Async request to delete 

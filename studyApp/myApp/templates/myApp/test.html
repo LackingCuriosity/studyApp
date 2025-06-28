@@ -24,13 +24,37 @@
         <button id="flipButton" data-value="question" class="buttonPressedAnimation"> Flip Card</button>
         <button id="newQuestionButton" value=0 class="buttonPressedAnimation questionButton">Next</button>
     </div>
-    {% if user.is_authenticated %}
-    {% csrf_token %}
-        <div id="upvotesDiv">
-            <img src='{% static "myApp/img/downvote.png" %}' name="downvote" class="vote buttonPressedAnimation" data-value=-1 data-ID={{post.id}}  id=downvote alt="downvote">
-            <div id="upvotesAmount">{{upvotes}}</div>
-            <img src='{% static "myApp/img/upvote.png" %}' name="upvote" class="vote buttonPressedAnimation" data-value=1 data-ID={{post.id}}  id=upvote alt="upvote">
+    <div id="upvotesDiv">
+        {% if user.is_authenticated %}
+            {% csrf_token %}
+            <div id="upvoteDiv">
+                <img src='{% static "myApp/img/downvote.png" %}' name="downvote" class="vote buttonPressedAnimation" data-value=-1 data-ID={{post.id}}  id=downvote alt="downvote">
+                <div id="upvotesAmount">{{upvotes}}</div>
+                <img src='{% static "myApp/img/upvote.png" %}' name="upvote" class="vote buttonPressedAnimation" data-value=1 data-ID={{post.id}}  id=upvote alt="upvote">
+            </div>
+        {% endif %}
+        <div id="filterDiv">
+            <select name="country" id="country" class="filter">
+                <option data-value=-1 selected>Country</option>
+                <option data-value="Canada">Canada</option>
+                <option data-value="United States of America">United States of America</option>
+                <option data-value="United Kingdom">United Kingdom</option>
+            </select>
+
+            <select name="year" id="year" class="filter">
+                <option value =-1 selected>Grade/Year</option>
+                <option disabled>--Secondary Schooling--</option>
+                <option value=9>Year 9</option>
+                <option value=10>Year 10</option>
+                <option value=11>Year 11</option>
+                <option value=12>Year 12</option>
+                <option value=13>Year 13</option>
+            </select>
+
+            <datalist id="subjectList"></datalist>
+            <input id="subject" type="search" list="subjectList" placeholder="Subject" class="filter">
+            <div class="filter"><input type="checkbox"> Only Show My Questions</div>
         </div>
-    {% endif %}
+    </div>
 
 {% endblock %}

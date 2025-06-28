@@ -40,6 +40,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Assign function to W and S key
     document.addEventListener("keyup", (e) => {
+        activeElementTag = document.activeElement.tagName.toLowerCase()
+        if (activeElementTag == "textarea" || activeElementTag == "input") {
+            return
+        }
+        
         if (e.key === "w") {
             sendVote(1)
         }
@@ -54,7 +59,6 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .then (data => data.json())
         .then (data => {
-            console.log(data)
             if (data["response"] == 200) {
                 document.getElementById("upvotesAmount").innerHTML = 10;
             }

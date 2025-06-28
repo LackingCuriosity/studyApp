@@ -12,6 +12,7 @@
         <div class="questionContainer">
             <div class="question"><b>Question:</b><br>{{question.question}}</div>
             <div class="answer"><b>Answer:</b><br>{{question.answer}}</div>
+            <div class="filters">{{question.country | truncatechars:10}} | Year {{question.year}} | {{question.subject | truncatechars:10}}</div>
             <div class="tooltip">
                 <div class="voteAmount">Votes: {{question.upvotes}}</div>
                 <div>
@@ -24,8 +25,27 @@
     <form method="POST" action = '{%url "manageQuestions" %}' id="addQuestionContainer"> 
         <div> <b><u>Add Question:</u></b></div>
         {% csrf_token %}
-        <textarea name="question" id="addQuestion" placeholder="Question"></textarea>
-        <textarea name="answer" id="addAnswer" placeholder="Answer"></textarea>
+        <textarea name="question" id="addQuestion" placeholder="Question" required></textarea>
+        <textarea name="answer" id="addAnswer" placeholder="Answer" required></textarea>
+        <div id="filterDiv">
+            <select class=filter name="country" id="country">
+                <option data-value=-1 selected disabled>Country</option>
+                <option data-value="Canada">Canada</option>
+                <option data-value="United States of America">United States of America</option>
+                <option data-value="United Kingdom">United Kingdom</option>
+            </select>
+        <select class=filter name="year" id="year">
+            <option value = -1 selected disabled>Grade/Year</option>
+            <option disabled>--Secondary Schooling--</option>
+            <option value=9>Year 9</option>
+            <option value=10>Year 10</option>
+            <option value=11>Year 11</option>
+            <option value=12>Year 12</option>
+            <option value=13>Year 13</option>
+        </select>
+            <datalist id="subjectList"></datalist>
+            <input type="search" list="subjectList" placeholder="Subject" id="subject" class="filter" name="subject">
+        </div>
         <button name="questionSubmit" id="submitButton">Submit</button>
     </form>
 </div>

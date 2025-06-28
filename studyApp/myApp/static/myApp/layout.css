@@ -3,6 +3,10 @@ body {
     overflow-x: hidden;
 }
 
+button:hover {
+    cursor: pointer;
+}
+
 #navBar {
     position: absolute;
     float: top;
