@@ -9,14 +9,15 @@ document.addEventListener("DOMContentLoaded", () => {
         year = document.getElementById("year").value
         country = document.getElementById("country").value
         subject = document.getElementById("subject").value
-        fetch(('/getQuestion' + "/?question=" + value + "&year=" + year + "&country=" + country + "&subject=" + subject), {
+        onlyMyQuestion = document.getElementById("onlyMyQuestion").checked
+        fetch(('/getQuestion' + "/?question=" + value + "&year=" + year + "&country=" + country + "&subject=" + subject + "&onlyMyQuestion=" + onlyMyQuestion), {
             method : "GET"
         })
         .then(data => data.json())
         .then(data => {
-            console.log('/getQuestion' + "/?question=" + value + "&year=" + year + "&country=" + country + "&subject=" + subject)
-            questionDiv.innerHTML = data["question"] + " " + data["upvotes"]
+            questionDiv.innerHTML = data["question"]
             questionDiv.dataset.id = data["id"]
+            document.getElementById("questionUpvotesAmount").innerHTML = data["upvotes"]
             questionDiv.dataset.upvotes = data["upvotes"]
             document.getElementById("answerDiv").innerHTML = data["answer"]
             if(data["isOwn"]) {
@@ -37,6 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("year").addEventListener("change" , updateQuestion)
     document.getElementById("country").addEventListener("change" , updateQuestion)
     document.getElementById("subject").addEventListener("keyup" , updateQuestion)
+    document.getElementById("onlyMyQuestion").addEventListener("change", updateQuestion)
     
 
     function back() {

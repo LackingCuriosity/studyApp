@@ -60,6 +60,8 @@ def getQuestion(request):
         year = int(request.GET.get("year", -1))
         country = request.GET.get("country", "")
         subject = request.GET.get("subject", "")
+        onlyMyQuestion = request.GET.get("onlyMyQuestion", "false")
+        print(onlyMyQuestion)
         questions = (Question.objects.all().order_by('-upvotes'))
         if year != -1:
             questions = questions.filter(year=year)
@@ -67,6 +69,8 @@ def getQuestion(request):
             questions = questions.filter(country=country)
         if subject != "":
             questions = questions.filter(subject=subject)
+        if onlyMyQuestion == "true":
+            questions = questions.filter(person=request.user)
         if len(questions) == 0:
             return JsonResponse({"question" : "No Questions Yet!", "answer":"No Questions Yet!", "upvotes": ""})
         questionID = questionID % len(questions)
@@ -139,7 +143,6 @@ def updateUpvotes(request):
     if request.user.is_authenticated:
         person = Person.objects.get(username=request.user.username)
         #if more that 10 miniutes has passed, set upvotes to 10, and reset time
-        print(time.time() - person.upvotesTime)
         if (time.time() - person.upvotesTime > 600):
             person.upvotes = 10
             person.upvotesTime = time.time()
@@ -178,7 +181,6 @@ def manageQuestions(request):
 
         #ensure user owns question and delete
         if person.questions.filter(id=data["ID"]):
-            print(person.questions.get(id=data["ID"]))
             person.questions.get(id=data["ID"]).delete()
 
         

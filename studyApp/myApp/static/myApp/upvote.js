@@ -4,11 +4,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function sendVote(amount) {
         
-            
+            if (document.getElementById("upvoteDiv").style.display == "none") {
+                return
+            }
             //update info for user
             try {
                 upvotesAmount = document.getElementById("upvotesAmount")
                 upvotesAmount.innerHTML = Math.max(upvotesAmount.innerHTML - 1, 0)
+                questionUpvotesAmount = document.getElementById("questionUpvotesAmount")
+                questionUpvotesAmount.innerHTML = Number(questionUpvotesAmount.innerHTML) + amount
             }
             catch(e) {
                 console.log(e)

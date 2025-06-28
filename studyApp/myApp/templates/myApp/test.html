@@ -19,6 +19,7 @@
     <div id="questionContainer">
         <div id="questionDiv"></div>
         <div id="answerDiv"></div>
+    <div id="questionUpvotesAmountDiv">Upvotes: <span id="questionUpvotesAmount"></span></div>
     <div id="questionControls">
         <button id="lastQuestionButton" class="buttonPressedAnimation questionButton">Back</button>
         <button id="flipButton" data-value="question" class="buttonPressedAnimation"> Flip Card</button>
@@ -53,7 +54,7 @@
 
             <datalist id="subjectList"></datalist>
             <input id="subject" type="search" list="subjectList" placeholder="Subject" class="filter">
-            <div class="filter"><input type="checkbox"> Only Show My Questions</div>
+            <div class="filter"><input type="checkbox" name="onlyMyQuestion" id="onlyMyQuestion"> Only Show My Questions</div>
         </div>
     </div>
 
