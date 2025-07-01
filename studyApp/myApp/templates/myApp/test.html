@@ -17,8 +17,8 @@
 {% block body %}
 <body>
     <div id="questionContainer">
-        <div id="questionDiv"></div>
-        <div id="answerDiv"></div>
+        <div id="questionDiv" class=""></div>
+        <div id="answerDiv" class=""></div>
     <div id="questionUpvotesAmountDiv">Upvotes: <span id="questionUpvotesAmount"></span></div>
     <div id="questionControls">
         <button id="lastQuestionButton" class="buttonPressedAnimation questionButton">Back</button>
@@ -57,5 +57,7 @@
             <div class="filter"><input type="checkbox" name="onlyMyQuestion" id="onlyMyQuestion"> Only Show My Questions</div>
         </div>
     </div>
-
+</div>
+</body>
+    <div id="hint">Hint: Use 'A' & 'D' to view last/next question and use 'W' & 'S' to upvote and downvote a question</div>
 {% endblock %}

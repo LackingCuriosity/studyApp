@@ -14,7 +14,7 @@
         <a href="{% url 'home' %}"><button class="navItem"> Home </button></a>
         <a href='{% url "manageQuestions" %}'><button class="navItem"> Manage Questions</button></a>
         {% if user.is_authenticated %}
-        <a href='{% url "logout" %}'><button class="navItem"> logout </button></a>
+        <a href='{% url "logout" %}'><button class="navItem"> Logout </button></a>
         {% else %}
         <a href='{% url "register" %}'><button class="navItem"> Register </button></a>
         <a href='{% url "login" %}'><button class="navItem"> Login </button></a>

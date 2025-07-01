@@ -3,8 +3,8 @@ document.addEventListener("DOMContentLoaded", () => {
     voteElements = document.getElementsByClassName("vote")
 
     function sendVote(amount) {
-        
-            if (document.getElementById("upvoteDiv").style.display == "none") {
+            // if upvote is invalid -- ignore 
+            if (document.getElementById("upvoteDiv").style.display == "none" || document.getElementById("upvotesAmount").innerHTML.trim() == "0") {
                 return
             }
             //update info for user
@@ -57,6 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     })
 
+    // updates the amount of upvotes they have
     setInterval(() => {
         fetch("/updateUpvotes", {
             method: "GET"

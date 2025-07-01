@@ -19,6 +19,7 @@
     width: 20rem;
     height: 2rem;
     margin-bottom:20px;
+
 }
 
 #registerText, #loginText{
@@ -32,17 +33,20 @@
     align-items: center;
     position: absolute;
     left: 50%;
-    top: 15%;
+    top: 10%;
     transform: translate(-50%, 0);
-    width: 20rem;
-    height: 5rem;
+    width: 25rem;
+    height: 6rem;
     border: 1px solid red;
     background-color: lightcoral;
     color: white;
     font-size: 1rem;
+    padding: 10px;
     
 }
 
-#registerButton {
+#registerButton, #loginButton {
     height:2rem;
+    background-color: #d0b0ff2c;
+    border-radius: 4px;
 }

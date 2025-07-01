@@ -7,6 +7,7 @@
     display: flex;
     flex-direction: column;
     margin: 10px;
+    overflow-x: none
 }
 
 .question, .answer {
@@ -55,7 +56,10 @@
 
 #questionsContainer {
     margin-left: 10px;
-    border: 1px solid black;
+    border: 1px solid gray;
+    border-radius: 10px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
     display:flex;
     width: 50%;
     padding: 10px;
@@ -65,6 +69,7 @@
     justify-content: space-evenly;
     align-items: center;
     overflow: auto;
+    overflow-x: hidden;
 }
 
 .questionID {
@@ -83,10 +88,15 @@
     margin: 20px;
     margin-top: 0;
     overflow: auto;
+    overflow-x: hidden;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    border-radius: 10px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    
 }
 
 #addQuestion, #addAnswer {
@@ -144,4 +154,23 @@
 .filter {
     height: 100%;
     width: 30%;
+}
+
+button {
+    width: fit-content;
+    height: fit-content;
+    background-color: #B8B8FF;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #aaaae9;
+}
+
+button:disabled {
+    background-color: #b8b8ff55;
+}
+
+button:disabled:hover {
+    cursor:auto;
 }

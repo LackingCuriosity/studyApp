@@ -55,14 +55,18 @@ def getQuestion(request):
     # get question if the question exists
     if (request.GET.get('question')):
         
+        #get requested Question ID
         questionID = int(request.GET.get('question'))
-        questionID = questionID % len(Question.objects.all()) 
+        questionID = questionID % len(Question.objects.all())
+
+        # get filters if applciable
         year = int(request.GET.get("year", -1))
         country = request.GET.get("country", "")
         subject = request.GET.get("subject", "")
         onlyMyQuestion = request.GET.get("onlyMyQuestion", "false")
-        print(onlyMyQuestion)
         questions = (Question.objects.all().order_by('-upvotes'))
+
+        #apply filters if applicable
         if year != -1:
             questions = questions.filter(year=year)
         if country != "Country":
@@ -70,9 +74,14 @@ def getQuestion(request):
         if subject != "":
             questions = questions.filter(subject=subject)
         if onlyMyQuestion == "true":
-            questions = questions.filter(person=request.user)
+            if (request.user.is_authenticated):
+                questions = questions.filter(person=request.user)
+            else:
+                return JsonResponse({"question" : "You Are Not Logged In!<br>You Have no Questions!", "answer":"You Are Not Logged In! You Have no Questions!", "upvotes": ""})
         if len(questions) == 0:
             return JsonResponse({"question" : "No Questions Yet!", "answer":"No Questions Yet!", "upvotes": ""})
+        
+        #get the question requested, loop back if needed
         questionID = questionID % len(questions)
         model = model_to_dict(questions[questionID])
         if request.user.is_authenticated:
@@ -167,6 +176,8 @@ def manageQuestions(request):
         userCountry = request.POST.get("country", "")
         userSubject = request.POST.get("subject", "")
         userYear = request.POST.get("year", "-1")
+
+        #If valid, make and save
         if userQuestion != "" and userAnswer != "" and userSubject in validSubjects and userCountry in validCountries and int(userYear) in validYears:
             question = Question.objects.create(question=request.POST["question"], answer=request.POST["answer"], upvotes=0, country=userCountry, subject=userSubject, year=userYear)
             question.save()

@@ -1,7 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
+    // get filter value
     country = document.getElementById("country")
     year = document.getElementById("year")
     validSubjects = ["Accounting", "Biology", "Chemistry", "Computer Science", "Design And Technology", "Economics", "English", "Food Science", "French", "Math", "Geography", "Music", "Physics", "Philosophy", "Psycology", "Statistics"]
+    
+    // returns if the value given is valid
     function isValid() {
         question = document.getElementById("addQuestion")
         answer = document.getElementById("addAnswer")
@@ -33,6 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
         datalist.innerHTML += "<option data-value=" + subject + ">" + subject + "</option>"
     }
 
+    //for all delete buttons, add onclick funtion to bring up confirmation and apply question ID
     confirmationDiv = document.getElementById("confirmationDiv")
     deleteButtons = document.getElementsByClassName("delete")
     for (deleteButton of deleteButtons) {
