@@ -57,8 +57,8 @@ def getQuestion(request):
         
         #get requested Question ID
         questionID = int(request.GET.get('question'))
-        if Question.objects.all() != 0:
-            return JsonResponse({"question" : "No Questions Yet!", "answer":"No Questions Yet!", "upvotes": ""})
+        if Question.objects.all() == 0:
+            return JsonResponse({"question" : "No Questdwadions Yet!", "answer":"No Questions Yet!", "upvotes": ""})
 
         # get filters if applciable
         year = int(request.GET.get("year", -1))
