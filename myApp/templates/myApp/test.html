@@ -1,0 +1,63 @@
+{% extends "myApp/layout.html" %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {% block files %}
+    <script src='{% static "myApp/upvote.js" %}'></script>
+    <script src='{% static "myApp/asyncQuestion.js" %}'></script>
+    <link rel="stylesheet" href='{% static "myApp/home.css" %}'>
+    <link rel="stylesheet" href='{% static "myApp/layout.css" %}'>
+    {% endblock %}
+</head>
+
+{% block body %}
+<body>
+    <div id="questionContainer">
+        <div id="questionDiv" class=""></div>
+        <div id="answerDiv" class=""></div>
+    <div id="questionUpvotesAmountDiv">Upvotes: <span id="questionUpvotesAmount"></span></div>
+    <div id="questionControls">
+        <button id="lastQuestionButton" class="buttonPressedAnimation questionButton">Back</button>
+        <button id="flipButton" data-value="question" class="buttonPressedAnimation"> Flip Card</button>
+        <button id="newQuestionButton" value=0 class="buttonPressedAnimation questionButton">Next</button>
+    </div>
+    <div id="upvotesDiv">
+        {% if user.is_authenticated %}
+            {% csrf_token %}
+            <div id="upvoteDiv">
+                <img src='{% static "myApp/img/downvote.png" %}' name="downvote" class="vote buttonPressedAnimation" data-value=-1 data-ID={{post.id}}  id=downvote alt="downvote">
+                <div id="upvotesAmount">{{upvotes}}</div>
+                <img src='{% static "myApp/img/upvote.png" %}' name="upvote" class="vote buttonPressedAnimation" data-value=1 data-ID={{post.id}}  id=upvote alt="upvote">
+            </div>
+        {% endif %}
+        <div id="filterDiv">
+            <select name="country" id="country" class="filter">
+                <option data-value=-1 selected>Country</option>
+                <option data-value="Canada">Canada</option>
+                <option data-value="United States of America">United States of America</option>
+                <option data-value="United Kingdom">United Kingdom</option>
+            </select>
+
+            <select name="year" id="year" class="filter">
+                <option value =-1 selected>Grade/Year</option>
+                <option disabled>--Secondary Schooling--</option>
+                <option value=9>Year 9</option>
+                <option value=10>Year 10</option>
+                <option value=11>Year 11</option>
+                <option value=12>Year 12</option>
+                <option value=13>Year 13</option>
+            </select>
+
+            <datalist id="subjectList"></datalist>
+            <input id="subject" type="search" list="subjectList" placeholder="Subject" class="filter">
+            <div class="filter"><input type="checkbox" name="onlyMyQuestion" id="onlyMyQuestion"> Only Show My Questions</div>
+        </div>
+    </div>
+</div>
+</body>
+    <div id="hint">Hint: Use 'A' & 'D' to view last/next question and use 'W' & 'S' to upvote and downvote a question</div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "myApp/layout.html " %}
+{% load static %}
+
+{% block files %}
+    <link rel="stylesheet" href='{% static "myApp/register.css" %}'>
+    <script src='{% static "myApp/register.js" %}'></script>
+{% endblock %}
+
+{% block body %}
+<body>
+    <div id="messageDiv">{{message}}</div>
+    <form action={% url 'login' %} method="POST">
+        {% csrf_token %}
+        <div id="loginDiv">
+            <div class="largeText" id="loginText">
+                Login
+            </div>
+            <input type="text" name="username" class="loginInputField" placeholder="Username">
+            <input type="password" name="password" class="loginInputField" placeholder="Password">
+            <button id="loginButton"> Login </button>
+        </div>
+
+    </form>
+</body>
+{% endblock %}
