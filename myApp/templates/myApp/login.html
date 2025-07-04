@@ -2,8 +2,9 @@
 {% load static %}
 
 {% block files %}
-    <link rel="stylesheet" href='{% static "myApp/register.css" %}'>
-    <script src='{% static "myApp/register.js" %}'></script>
+    <link rel="stylesheet" href={% static "myApp/register.css" %}>
+    <link rel="stylesheet" href={% static "myApp/layout.css" %}>
+    <script src={% static "myApp/register.js" %}></script>
 {% endblock %}
 
 {% block body %}
