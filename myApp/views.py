@@ -129,7 +129,7 @@ def register(request):
 def loginPage(request):
     #if not POST show site
     if request.method != "POST":
-        return render(request, "myApp/login.html")
+        return render(request, "myApp/register.html")
     
     #get user input
     username = request.POST.get("username", "")
@@ -144,6 +144,7 @@ def loginPage(request):
         return render(request, "myApp/login.html", {
             "message" : "Invalid Credentials"
         })
+    
     
 def logoutPage(request):
     logout(request)

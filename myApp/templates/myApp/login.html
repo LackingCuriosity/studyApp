@@ -10,7 +10,7 @@
 {% block body %}
 <body>
     <div id="messageDiv">{{message}}</div>
-    <form action={% url 'login' %} method="POST">
+    <form action='{% url "login" %}' method="POST">
         {% csrf_token %}
         <div id="loginDiv">
             <div class="largeText" id="loginText">
