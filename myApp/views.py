@@ -129,7 +129,7 @@ def register(request):
 def loginPage(request):
     #if not POST show site
     if request.method != "POST":
-        return render(request, "myApp/register.html")
+        return render(request, "myApp/login.html")
     
     #get user input
     username = request.POST.get("username", "")
